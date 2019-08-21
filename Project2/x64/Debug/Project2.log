@@ -1,0 +1,66 @@
+﻿  Source.cpp
+c:\users\mcegan\source\repos\project2\project2\source.cpp(158): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(159): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(160): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(161): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(202): warning C4244: '+=': conversion from 'double' to '_Ty1', possible loss of data
+          with
+          [
+              _Ty1=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(203): warning C4244: '+=': conversion from 'double' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(210): warning C4244: '+=': conversion from 'double' to '_Ty1', possible loss of data
+          with
+          [
+              _Ty1=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(211): warning C4244: '+=': conversion from 'double' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(218): warning C4244: '+=': conversion from 'double' to '_Ty1', possible loss of data
+          with
+          [
+              _Ty1=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(219): warning C4244: '+=': conversion from 'double' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=int
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(232): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(233): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(255): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(256): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(263): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(264): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(284): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(285): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(305): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(306): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(326): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(327): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(375): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(376): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(386): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(388): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(407): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(409): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(428): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(430): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(449): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(451): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(534): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(600): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=std::chrono::system_clock::rep
+          ]
+c:\users\mcegan\source\repos\project2\project2\source.cpp(826): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\mcegan\source\repos\project2\project2\source.cpp(1516): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Project2.vcxproj -> C:\Users\McEgan\source\repos\Project2\x64\Debug\Project2.exe

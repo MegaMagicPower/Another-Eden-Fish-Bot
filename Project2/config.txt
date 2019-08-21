@@ -1,0 +1,438 @@
+Enter in the window name. You can find this in the top left of the LD Player window. The default name is "LDPlayer", but if you've renamed it, it will be different.
+----------------------
+LDPlayer=Window Name
+
+Enter in the time you want to wait when loading areas. Increase or decrease based on your computer speed. Time is in milliseconds (10000 is 10 seconds)
+---------------------
+10000=Load Time
+
+Max of each bait to attempt to buy each time you return to the vendor. If none of the locations you have selected to fish below contain this bait, it will not be bought. Try to avoid entering a "3" as the OCR has a problem with seeing in game 3's as 8's.
+---------------------
+20=Fishing Dango Max
+0=Worm Max
+0=Unexpected Worm Max
+0=Shopaholic Clam Max
+0=Spree Snail Max
+0=Dressed Crab Max
+0=Tear Crab Max
+0=Foamy Worm Max
+0=Bubbly Worm Max
+0=Snitch Sardines Max
+0=Babbling Sardines Max
+0=Crab Cake Max
+0=Premium Crab Cake Max
+
+To fish a given spot, set the location's value to 1 or greater. 0 means you do not want to fish there at all. 1 will be fished first, 2 second, etc. Multiple fishing spots can have the same number, and when they do, they will be
+fished in alphabetical order. So you can think of this number as a "rank". Once all of rank 1 are complete, it will move on to rank 2, and so on. Once it goes through all ranks, it will begin rank 1 again.
+
+For the bait itself, the only valid values are 0 or 1. A value of 0 means you don't want to use that bait, while a 1 means that you do. Bait will be used from top to bottom; there is no ranking system like the previous.
+I've already entered in baits suggested by the Living Green fishing guide, so you shouldn't need to change these unless you want to specifically target only a certain type of fish.
+----------------------
+
+0=Acteul
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Baruoki
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	1=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Charol Plains
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dimension Rift
+---
+	1=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace - Inner Wall
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace Past - Inner Wall
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace - Outer Wall Bamboo
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace Past - Outer Wall Bamboo
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace - Outer Wall Pine
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace Past - Outer Wall Pine
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace - Outer Wall Plum
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Dragon Palace Past - Outer Wall Plum
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Elzion Airport
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Karek Swampland
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+1=Kira Beach
+---
+	1=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Lake Tillian
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Last Island
+---
+	1=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	1=Crab Cake
+	1=Premium Crab Cake
+~END
+
+0=Man-Eating Swamp
+---
+	1=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	1=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Naaru Uplands
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Nilva
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Rinde
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Rucyana Sands
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Serena Coast
+---
+	0=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	1=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Vasu Mountains
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Babbling Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
