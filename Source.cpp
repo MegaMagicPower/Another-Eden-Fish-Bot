@@ -23,7 +23,6 @@ int height, width;
 int msdThreshold = 10000;
 int loadTime = 10000;
 double heightPct, widthPct;
-bool useAbsFishLoc = false;
 WORD xCenter, yCenter;
 Ptr<OCRTesseract> ocr;
 HDC hdc;
@@ -32,7 +31,8 @@ HBITMAP hbDesktop;
 Mat bitbltPic, fishIcon, exclamationIcon, swampFishIcon;
 std::random_device dev;
 std::mt19937 rng;
-std::uniform_int_distribution<std::mt19937::result_type> lClickRand;
+std::uniform_int_distribution<std::mt19937::result_type> shortSleepRand;
+std::uniform_int_distribution<std::mt19937::result_type> lClickPixelRand;
 std::uniform_int_distribution<std::mt19937::result_type> sleepRand;
 std::uniform_int_distribution<std::mt19937::result_type> slideSleepRand;
 std::uniform_int_distribution<std::mt19937::result_type> slideRand;
@@ -61,8 +61,19 @@ vector<pair<int, int>> dimensionRiftLocs = { {887, 481}, {604, 470}, {1112, 471}
 vector<pair<int, int>> kiraBeachLocs = { {936, 533}, {697, 389}, {1180, 404}, {705, 686}, {1173, 687} };
 vector<pair<int, int>> rucyanaSandsLocs = { {862, 494}, {650, 398}, {1080, 403}, {632, 603}, {1103, 622} };
 vector<pair<int, int>> vasuLocs = { {879, 492}, {626, 395}, {1133, 399}, {612, 598}, {1166, 614} };
+void(*fishIconClickFunction)() = NULL;
 
-enum baitType { Fishing_Dango, Worm, Unexpected_Worm, Shopaholic_Clam, Spree_Snail, Dressed_Crab, Tear_Crab, Foamy_Worm, Bubbly_Worm, Snitch_Sardines, Babbling_Sardines, Crab_Cake, Premium_Crab_Cake };
+vector<Mat>* currentMonsterVec = NULL;
+vector<Mat> monsterVec_Baruoki;
+vector<Mat> monsterVec_Acteul;
+vector<Mat> monsterVec_Vasu;
+vector<Mat> monsterVec_Serena;
+vector<Mat> monsterVec_Rucyana;
+vector<Mat> monsterVec_Elzion;
+vector<Mat> monsterVec_LastIsland;
+vector<Mat> monsterVec_DimensionRift;
+
+enum baitType { Fishing_Dango, Worm, Unexpected_Worm, Shopaholic_Clam, Spree_Snail, Dressed_Crab, Tear_Crab, Foamy_Worm, Bubbly_Worm, Snitch_Sardines, Blabber_Sardines, Crab_Cake, Premium_Crab_Cake };
 
 struct fishingSpot
 {
@@ -77,7 +88,7 @@ vector<pair<bool, int>> baitList; //Index is the type, the boolean is whether or
 vector<fishingSpot> fishingSpots;
 pair<int, int> currentFishIconLoc;
 vector<baitType>* currentBaitsToUse;
-int currentHorrorBaitThreshold = 9999;
+bool hasHorror = false;
 
 BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, _In_ LPARAM lParam)
 {
@@ -88,22 +99,25 @@ BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, _In_ LPARAM lParam)
 	GetWindowThreadProcessId(hwnd, &dwProcId);
 
 	HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcId);
-	QueryFullProcessImageName(hProc, 0, buffer, &dSize);
-	CloseHandle(hProc);
-
-	string windowTitle(buffer);
-
-	string finalWindow = windowTitle.substr(windowTitle.rfind("\\") + 1, string::npos);
-
-	if (finalWindow.compare((*((pair<string*, string*>*)(lParam))->first)) == 0)
+	if (hProc)
 	{
-		GetWindowTextA(hwnd, buffer, MAX_PATH);
-		windowTitle = buffer;
+		QueryFullProcessImageName(hProc, 0, buffer, &dSize);
+		CloseHandle(hProc);
 
-		if (windowTitle.compare((*((pair<string*, string*>*)(lParam))->second)) == 0)
+		string windowTitle(buffer);
+
+		string finalWindow = windowTitle.substr(windowTitle.rfind("\\") + 1, string::npos);
+
+		if (finalWindow.compare((*((pair<string*, string*>*)(lParam))->first)) == 0)
 		{
-			window = hwnd;
-			return false;
+			GetWindowTextA(hwnd, buffer, MAX_PATH);
+			windowTitle = buffer;
+
+			if (windowTitle.compare((*((pair<string*, string*>*)(lParam))->second)) == 0)
+			{
+				window = hwnd;
+				return false;
+			}
 		}
 	}
 
@@ -204,20 +218,29 @@ pair<int, int> findIcon(Mat& tmp)
 	return make_pair(minLoc.x, minLoc.y);
 }
 
-pair<int, int> findFishIcon()
+void leftClick(int x, int y, int sTime = 2000, bool changeLoc = true)
 {
-	pair<int, int> fishIconLoc = findIcon(fishIcon);
-	fishIconLoc.first += round(30 * widthPct);
-	fishIconLoc.second += round(15 * heightPct);
-	return fishIconLoc;
+	if (changeLoc)
+	{
+		x = round(x * widthPct);
+		y = round(y * heightPct);
+	}
+
+	int randX = (boolRand(dev) ? lClickPixelRand(rng) : ((-1)*lClickPixelRand(rng)));
+	int randY = (boolRand(dev) ? lClickPixelRand(rng) : ((-1)*lClickPixelRand(rng)));
+	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(x + randX, y + randY));
+	sleepR(10);
+	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(x + randX, y + randY));
+
+	if (sTime <= 100)
+		Sleep(sTime + shortSleepRand(rng));
+	else
+		Sleep(sTime + slideDistanceRand(rng));
 }
 
-pair<int, int> findSwampFishIcon()
+void leftClick(pair<int, int>& coord, int sTime = 2000)
 {
-	pair<int, int> fishIconLoc = findIcon(swampFishIcon);
-	fishIconLoc.first += round(36 * widthPct);
-	fishIconLoc.second += round(19 * heightPct);
-	return fishIconLoc;
+	leftClick(coord.first, coord.second, sTime);
 }
 
 pair<int, int> findExclamationIcon()
@@ -228,29 +251,20 @@ pair<int, int> findExclamationIcon()
 	return exclIcon;
 }
 
-void leftClick(int x, int y, int sTime = 2000, bool changeLoc = true)
+void findAndClickSwampFishIcon()
 {
-	if (changeLoc)
-	{
-		x = round(x * widthPct);
-		y = round(y * heightPct);
-	}
-
-	int randX = (boolRand(dev) ? lClickRand(rng) : ((-1)*lClickRand(rng)));
-	int randY = (boolRand(dev) ? lClickRand(rng) : ((-1)*lClickRand(rng)));
-	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(x + randX, y + randY));
-	sleepR(10);
-	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(x + randX, y + randY));
-
-	if (sTime <= 100)
-		Sleep(sTime + lClickRand(rng));
-	else
-		Sleep(sTime + slideLClick(rng));
+	pair<int, int> fishIconLoc = findIcon(swampFishIcon);
+	fishIconLoc.first += round(36 * widthPct);
+	fishIconLoc.second += round(19 * heightPct);
+	leftClick(fishIconLoc.first, fishIconLoc.second, 2000, false);
 }
 
-void leftClick(pair<int, int>& coord, int sTime = 2000)
+void findAndClickFishIcon()
 {
-	leftClick(coord.first, coord.second, sTime);
+	pair<int, int> fishIconLoc = findIcon(fishIcon);
+	fishIconLoc.first += round(30 * widthPct);
+	fishIconLoc.second += round(15 * heightPct);
+	leftClick(fishIconLoc.first, fishIconLoc.second, 2000, false);
 }
 
 void drag(Direction direction, int slideDistance, int xStart, int yStart)
@@ -375,8 +389,8 @@ void Walk(Direction direction, int time, bool noRngSleep = false)
 	int delta = 0;
 	int slideDistance;
 	int deviation = 3;
-	int xStart = (boolRand(rng) ? (round(xCenter*widthPct)) + slideLClick(rng) : (round(xCenter*widthPct)) - slideLClick(rng));
-	int yStart = (boolRand(rng) ? (round(yCenter*heightPct)) + slideLClick(rng) : (round(yCenter*heightPct)) - slideLClick(rng));
+	int xStart = (boolRand(rng) ? (xCenter + slideLClick(rng)) : (xCenter - slideLClick(rng)));
+	int yStart = (boolRand(rng) ? (yCenter + slideLClick(rng)) : (yCenter - slideLClick(rng)));
 
 	//Start walking left
 	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xStart, yStart));
@@ -513,7 +527,7 @@ string getStatus()
 //Strategy is to quadrisect the lake and toss into each of the four sections and center
 void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000)
 {
-	longSleepR(3000);
+	longSleepR(5000);
 	vector<pair<int, int>> baits = { {827, 274}, {882, 397}, {870, 514}, {851, 630}, {854, 750}, {884, 790} };
 
 	auto changeBait = [&baits](baitType type)
@@ -609,7 +623,7 @@ void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000)
 
 				if (MSD > msdThreshold) //If the current screen is sufficiently different (high mean square difference) from the normal lake image, then a zoom in has occurred
 				{
-					Sleep(200 + lClickRand(rng)); //Emulate human reaction time
+					Sleep(200 + sleepRand(rng)); //Emulate human reaction time
 					leftClick(sections[j].first, sections[j].second);
 
 					//Click through success or failure
@@ -641,23 +655,54 @@ void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000)
 					MSD = MSD * MSD / lakeImg.total();
 					if (MSD > msdThreshold) //Should have returned to normal lake image; if not, its a battle
 					{
-						if ((*currentBaitsToUse)[i] < currentHorrorBaitThreshold) //Not a horror or lake lord, so should be able to auto attack it down
+						if (hasHorror) //Its possibly a horror or lakelord, so need to check to make sure before trying to auto it down
 						{
-							fightUntilEnd();
-							clickAttack(); //Click past fish results screen
+							if (currentMonsterVec != NULL)
+							{
+								Sleep(5000); //Give ample time for battle to fully load
 
-							if (useAbsFishLoc)  //Hack for last island since it needs to use the template to find the fish icon, which means the points don't need to be scaled
-								leftClick(currentFishIconLoc.first, currentFishIconLoc.second, 2000, false);
+								//For 3 seconds, read the screen and compare it to the current monster pics. If a close enough similarity is found, assume its a regular battle and proceed to auto attack
+								//If not, assume its a horror and exit
+								Mat partialHorrorPic;
+								auto horrorStartTime = chrono::high_resolution_clock::now();
+								int lowestMSD = 999999999;
+								while (std::chrono::duration_cast<std::chrono::seconds>(chrono::high_resolution_clock::now() - horrorStartTime).count() < 3)
+								{
+									bitBltWholeScreen();
+									copyPartialPic(partialHorrorPic, 140, 140, 420, 380);
+									for (int i = 0; i < currentMonsterVec->size(); ++i)
+									{
+										MSD = cv::norm((*currentMonsterVec)[i], partialHorrorPic);
+										MSD = MSD * MSD / (*currentMonsterVec)[i].total();
+
+										if (MSD < lowestMSD)
+											lowestMSD = MSD;
+									}
+									Sleep(10);
+								}
+
+								if (lowestMSD > 7000) //If its not a monster, it must be a horror
+								{
+									cout << "Horror or Lake Lord detected";
+									exit(0);
+								}
+							}
 							else
-								leftClick(currentFishIconLoc.first, currentFishIconLoc.second);
+							{
+								cout << "Horror or Lake Lord detected";
+								exit(0);
+							}
+						}
 
-							longSleepR(4000);
-						}
-						else //Its a horror or lakelord, so exit so the user can fight manually
-						{
-							cout << "Horror or Lake Lord detected";
-							exit(0);
-						}
+						fightUntilEnd();
+						clickAttack(); //Click past fish results screen
+
+						if (fishIconClickFunction != NULL) //In Man Eating Swamp, any battle shifts your position, so the fish icon location must be found again
+							fishIconClickFunction();
+						else
+							leftClick(currentFishIconLoc.first, currentFishIconLoc.second, 2000);
+
+						longSleepR(4000);
 					}
 
 					break;
@@ -724,7 +769,7 @@ void goToFishVendor()
 	const static vector<pair<int, int>> baitsLocs = { {1220, 160}, {1215, 325}, {1215, 465}, {1215, 625}, {1215, 800}, {1225, 925} };
 	const static vector<int> baitCosts = { 500, 1000, 3000, 1, 2, 3, 4, 6, 10, 30, 4000, 6000 };
 	string currText;
-	const static vector<string> baitNames = { "Fishing Dango", "Worm", "Unexpected Worm", "Shopaholic Clam", "Spree Snail", "Dressed Crab", "Tear Crab", "Foamy Worm", "Bubbly Worm", "Snitch Sardine", "Babbling Sardine", "Crab Cake", "Premium Crab Cake" };
+	const static vector<string> baitNames = { "Fishing Dango", "Worm", "Unexpected Worm", "Shopaholic Clam", "Spree Snail", "Dressed Crab", "Tear Crab", "Foamy Worm", "Bubbly Worm", "Snitch Sardine", "Blabber Sardine", "Crab Cake", "Premium Crab Cake" };
 
 	//Only 5 bait slots are fully on screen at a time, with the 6th partially visible. For every bait after 6, scroll down until new bait occupies bottom slot and then attempt to buy
 	for (int i = 0; i < baitList.size(); ++i)
@@ -748,7 +793,7 @@ void goToFishVendor()
 			break;
 		currText = txt;
 
-		while (txt.compare(baitNames[i]) != 0 && i < baitList.size()) //You don't get the baits in order, so some may be missing depending on your progression (babbling sardines)
+		while (txt.compare(baitNames[i]) != 0 && i < baitList.size()) //You don't get the baits in order, so some may be missing depending on your progression (blabber sardines)
 			++i;
 		
 
@@ -806,7 +851,7 @@ void goToBaruoki()
 
 void kiraBeach()
 {
-	useAbsFishLoc = true;
+	fishIconClickFunction = &findAndClickFishIcon;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -819,20 +864,20 @@ void kiraBeach()
 	Walk(LEFT, 1600);
 	longSleepR(3000);
 
-	currentFishIconLoc = findFishIcon();
-	leftClick(currentFishIconLoc.first, currentFishIconLoc.second, 2000, false);
+	findAndClickFishIcon();
 
 	longSleepR(1000);
 
 	fish(kiraBeachLocs);
 	leftClick(leaveButton);
 
-	useAbsFishLoc = false;
+	fishIconClickFunction = NULL;
 }
 
 void baruoki()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Baruoki;
 
 	goToFishVendor();
 	goToBaruoki();
@@ -845,7 +890,8 @@ void baruoki()
 	fish(baruokiLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void naaruUplands()
@@ -876,7 +922,8 @@ void goToActeul()
 
 void acteul()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Acteul;
 
 	goToFishVendor();
 	goToActeul();
@@ -889,12 +936,14 @@ void acteul()
 	fish(acteulLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void elzionAirport()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Elzion;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -923,7 +972,8 @@ void elzionAirport()
 	fish(elzionLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void lakeTillian()
@@ -951,7 +1001,8 @@ void lakeTillian()
 
 void vasuMountain()
 {
-	currentHorrorBaitThreshold = Foamy_Worm;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Vasu;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -974,7 +1025,8 @@ void vasuMountain()
 	fish(vasuLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void karekSwampland()
@@ -1032,7 +1084,8 @@ void rinde()
 
 void serenaCoast()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Serena;
 
 	goToFishVendor();
 	goToRinde();
@@ -1052,12 +1105,14 @@ void serenaCoast()
 	fish(acteulLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void rucyanaSands()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_Rucyana;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -1082,13 +1137,16 @@ void rucyanaSands()
 	fish(rucyanaSandsLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void lastIsland()
 {
-	useAbsFishLoc = true;
-	currentHorrorBaitThreshold = Premium_Crab_Cake;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_LastIsland;
+
+	fishIconClickFunction = &findAndClickFishIcon;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -1101,14 +1159,15 @@ void lastIsland()
 	Walk(UP, 100);
 	Walk(RIGHT, 500);
 
-	currentFishIconLoc = findFishIcon();
-	leftClick(currentFishIconLoc.first, currentFishIconLoc.second, 2000, false);
+	findAndClickFishIcon();
 
 	fish(kiraBeachLocs);
 	leftClick(leaveButton);
 
-	useAbsFishLoc = false;
-	currentHorrorBaitThreshold = 9999;
+	fishIconClickFunction = NULL;
+
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void nilva()
@@ -1133,7 +1192,7 @@ void nilva()
 
 void manEatingSwamp()
 {
-	useAbsFishLoc = true;
+	fishIconClickFunction = &findAndClickSwampFishIcon;
 
 	goToFishVendor();
 	goToActeul();
@@ -1151,13 +1210,12 @@ void manEatingSwamp()
 
 	Walk(RIGHT, 2750);
 
-	currentFishIconLoc = findSwampFishIcon();
-	leftClick(currentFishIconLoc.first, currentFishIconLoc.second, 2000, false);
+	findAndClickSwampFishIcon();
 
 	fish(acteulLocs, 5500);
 	leftClick(leaveButton);
 
-	useAbsFishLoc = false;
+	fishIconClickFunction = NULL;
 }
 
 void charolPlains()
@@ -1184,7 +1242,8 @@ void charolPlains()
 
 void dimensionRift()
 {
-	currentHorrorBaitThreshold = Snitch_Sardines;
+	hasHorror = true;
+	currentMonsterVec = &monsterVec_DimensionRift;
 
 	goToFishVendor();
 	goToSpacetimeRift();
@@ -1197,7 +1256,8 @@ void dimensionRift()
 	fish(dimensionRiftLocs);
 	leftClick(leaveButton);
 
-	currentHorrorBaitThreshold = 9999;
+	hasHorror = false;
+	currentMonsterVec = NULL;
 }
 
 void goToDragonPalace(bool centralKeep)
@@ -1271,9 +1331,9 @@ void outerWallBamboo()
 	Walk(LEFT, 700);
 	Walk(UP, 100, true);
 	longSleepR(loadTime);
-	Walk(RIGHT, 20000);
+	Walk(RIGHT, 15000);
 	fightUntilEnd();
-	Walk(RIGHT, 20000);
+	Walk(RIGHT, 15000);
 
 	Walk(LEFT, 2100);
 	Walk(UP, 100);
@@ -1318,7 +1378,7 @@ void outerWallBambooPast()
 	Walk(RIGHT, 2975);
 	Walk(UP, 100);
 	Walk(RIGHT, 5000);
-	WalkUntilBattle();
+	fightUntilEnd();
 	Walk(RIGHT, 5000);
 	leftClick(1240, 410);
 	currentFishIconLoc = make_pair(1240, 410);
@@ -1506,10 +1566,10 @@ void setup()
 					area.baitsToUse.push_back(Snitch_Sardines);
 					baitsUsedThisRun.insert(Snitch_Sardines);
 				}
-				else if (key.compare("Babbling Sardines") == 0)
+				else if (key.compare("Blabber Sardines") == 0)
 				{
-					area.baitsToUse.push_back(Babbling_Sardines);
-					baitsUsedThisRun.insert(Babbling_Sardines);
+					area.baitsToUse.push_back(Blabber_Sardines);
+					baitsUsedThisRun.insert(Blabber_Sardines);
 				}
 				else if (key.compare("Crab Cake") == 0)
 				{
@@ -1554,8 +1614,8 @@ void setup()
 			baitList[Bubbly_Worm].second = stoi(value);
 		else if (key.compare("Snitch Sardines Max") == 0)
 			baitList[Snitch_Sardines].second = stoi(value);
-		else if (key.compare("Babbling Sardines Max") == 0)
-			baitList[Babbling_Sardines].second = stoi(value);
+		else if (key.compare("Blabber Sardines Max") == 0)
+			baitList[Blabber_Sardines].second = stoi(value);
 		else if (key.compare("Crab Cake Max") == 0)
 			baitList[Crab_Cake].second = stoi(value);
 		else if (key.compare("Premium Crab Cake Max") == 0)
@@ -1698,16 +1758,6 @@ void setup()
 
 	ocr = OCRTesseract::create(NULL, NULL, NULL, OEM_TESSERACT_ONLY, PSM_SINGLE_LINE);
 
-	rng = std::mt19937(dev());
-	lClickRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 10);
-	sleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 50);
-	slideSleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1);
-	slideLClick = std::uniform_int_distribution<std::mt19937::result_type>(0, 100);
-	slideRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 2);
-	boolRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1);
-	slideDistanceRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 100);
-	longSleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1000);
-
 	string innerWindowName;
 	//if (emulator.compare("LD") == 0)
 	//{
@@ -1733,15 +1783,47 @@ void setup()
 	heightPct = height / 981.0;
 	widthPct = width / 1745.0;
 
-	Mat origFishIcon = imread("fish.png", IMREAD_UNCHANGED);
-	Mat origExclamationIcon = imread("exclamation.png", IMREAD_UNCHANGED);
-	Mat origSwampFishIcon = imread("swampFish.png", IMREAD_UNCHANGED);
-	if (heightPct != 100.0 || widthPct != 100.0)
+	fishIcon = imread("fish.png", IMREAD_UNCHANGED);
+	exclamationIcon = imread("exclamation.png", IMREAD_UNCHANGED);
+	swampFishIcon = imread("swampFish.png", IMREAD_UNCHANGED);
+
+	monsterVec_Baruoki.push_back(imread("monster_baruoki.png", IMREAD_UNCHANGED));
+	monsterVec_Acteul.push_back(imread("monster_acteul.png", IMREAD_UNCHANGED));
+	monsterVec_Vasu.push_back(imread("monster_vasu.png", IMREAD_UNCHANGED));
+	monsterVec_Serena.push_back(imread("monster_serena.png", IMREAD_UNCHANGED));
+	monsterVec_Rucyana.push_back(imread("monster_rucyana.png", IMREAD_UNCHANGED));
+	monsterVec_Elzion.push_back(imread("monster_elzion.png", IMREAD_UNCHANGED));
+	monsterVec_LastIsland.push_back(imread("monster_lastisland.png", IMREAD_UNCHANGED));
+	monsterVec_DimensionRift.push_back(imread("monster_dimensionrift1.png", IMREAD_UNCHANGED));
+	monsterVec_DimensionRift.push_back(imread("monster_dimensionrift2.png", IMREAD_UNCHANGED));
+
+	if (heightPct != 1.0 || widthPct != 1.0)
 	{
-		resize(origFishIcon, fishIcon, Size(), widthPct, heightPct, heightPct >= 1 ? INTER_CUBIC : INTER_AREA);
-		resize(origExclamationIcon, exclamationIcon, Size(), widthPct, heightPct, heightPct >= 1 ? INTER_CUBIC : INTER_AREA);
-		resize(origSwampFishIcon, swampFishIcon, Size(), widthPct, heightPct, heightPct >= 1 ? INTER_CUBIC : INTER_AREA);
+		resize(fishIcon, fishIcon, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(exclamationIcon, exclamationIcon, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(swampFishIcon, swampFishIcon, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+
+		resize(monsterVec_Baruoki[0], monsterVec_Baruoki[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_Acteul[0], monsterVec_Acteul[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_Vasu[0], monsterVec_Vasu[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_Serena[0], monsterVec_Serena[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_Rucyana[0], monsterVec_Rucyana[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_Elzion[0], monsterVec_Elzion[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_LastIsland[0], monsterVec_LastIsland[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_DimensionRift[0], monsterVec_DimensionRift[0], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(monsterVec_DimensionRift[1], monsterVec_DimensionRift[1], Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
 	}
+
+	rng = std::mt19937(dev());
+	lClickPixelRand = std::uniform_int_distribution<std::mt19937::result_type>(0, round(widthPct * 7));
+	shortSleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 10);
+	sleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 50);
+	slideSleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1);
+	slideLClick = std::uniform_int_distribution<std::mt19937::result_type>(0, round(widthPct * 30));
+	slideRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 2);
+	boolRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1);
+	slideDistanceRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 100);
+	longSleepRand = std::uniform_int_distribution<std::mt19937::result_type>(0, 1000);
 
 	hdc = GetWindowDC(window);
 	hDest = CreateCompatibleDC(hdc);
@@ -1769,6 +1851,15 @@ void setup()
 		if (baitsUsedThisRun.find(i) == baitsUsedThisRun.end())
 			baitList[i].second = 0;
 	}
+}
+
+void convertPic(string inName, string outName)
+{
+	Mat tmp = imread(inName, IMREAD_UNCHANGED);
+	Mat newPic;
+	cvtColor(tmp, newPic, COLOR_BGR2BGRA, 4); //Conversion to 4 channel
+	imwrite(outName, newPic);
+	exit(0);
 }
 
 int main()
