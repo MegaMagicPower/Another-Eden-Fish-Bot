@@ -3,6 +3,8 @@ This is a bot for Another Eden that completely automates the entire fishing proc
 
 [Download here!](https://github.com/MegaMagicPower/Another-Eden-Fish-Bot/releases/latest)
 
+[Video of it running](https://youtu.be/l392htuveGE)
+
 
 
 ## Is it safe to run this? Will I get banned?
@@ -28,6 +30,8 @@ Once that's done, start your emulator. The emulator itself needs to be set to at
 
 Now start your game and get to the normal state where you're free to run around. The menu should not be open. Make sure the emulator is not minimized. Now you're ready to run the bot, which you can do so via the command prompt or simply double clicking the exe file. If everything worked correctly, you should see the map screen being opened as it travels to the fish vendor. The bot always visits the fish vendor to turn in fish and buy bait for traveling to each pool. If you haven't changed the config file, you'll be buying 20 Fishing Dango's and then traveling to Kira Beach to fish. Once you are satisfied that it's working correctly, feel free to setup the config file how you want to travel to other locations.
 
+If you find your emulator is running too slowly (ie bot not working correctly), try setting at least 2 cores/1048 RAM in the settings. Also make sure you have virtualization support turned on your BIOS as shown in this link: [https://www.bignox.com/blog/enable-vt-virtualization-technology-to-get-better-performance/](https://www.bignox.com/blog/enable-vt-virtualization-technology-to-get-better-performance/)
+
 While the bot is running, you are free to use your computer as normal. Browse the web, play games, etc. The only thing you need to remember is you cannot let your mouse move over the window. Why? When mouse messages are processed, where the mouse currently is in the window takes precedence over any location specified in the message. That means if the bot wants to click in the center of the screen, but you have the mouse in the top left corner, it will click in the top left corner, thus breaking the macro and forcing you to restart the bot. This sounds more troublesome than it actually is; simply put the emulator window behind another one (like your browser, game, discord, etc) and forget about it. If you have a second monitor, this also works great as well as a spot to store it. If you don't have a second monitor, but want to check up on it periodically to make sure it hasn't gotten stuck, Windows has a nice feature on with Aero where you can hover your mouse over a program in the task bar at the bottom and it will display a mini window showing you what's going on. This is how I check up on it myself.
 
 The other thing to remember is you cannot minimize the emulator. Why? When minimized, the window no longer renders, so the bot is unable to take screenshots. So don't minimize, just put it behind another window.
@@ -42,9 +46,7 @@ All battles are done via just auto attacking, so put your best physical attacker
 
 
 ## What about horrors and lake lords?
-When you enter a random battle after using a bait high enough to attract a horror or lakelord in the pool you're at, the bot should give you a message that's encountered one and then terminate. This allows you to perform the fight manually. Restart the bot after you're finished.
-
-As an example, let's take the Greater Whale in the Dimension Rift. According to the fish guide, you can only catch it with Snitch Sardine. So if you're currently using the Snitch Sardine, and you enter any random battle after a fish catch, it will pause. This does mean that if this particular bait (or any higher bait) could catch a normal battle, it will also stop on that battle. So make sure you set it to fish out the lower ones before it uses the horror bait.
+During every battle, the bot will check to see whether or not you're fighting a horror or lake lord. If it detects that you are, it will give a message stating so and then terminate. This allows you to fight them manually. When finished, simply restart the bot.
 
 
 
@@ -69,7 +71,7 @@ You need OpenCV built with Tesseract linked to it. I suggest using Microsoft's v
 
 
 ## Feedback
-Discord: McEgan#2754
+Leave comments on the youtube video: [https://youtu.be/l392htuveGE](https://youtu.be/l392htuveGE)
 
 
 
