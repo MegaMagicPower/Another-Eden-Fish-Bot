@@ -41,7 +41,7 @@ std::uniform_int_distribution<std::mt19937::result_type> boolRand;
 std::uniform_int_distribution<std::mt19937::result_type> slideLClick;
 std::uniform_int_distribution<std::mt19937::result_type> longSleepRand;
 
-string ocrNumbers = "/1234567890";
+string ocrNumbers = "1234567890,";
 string ocrLetters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.'";
 
 pair<int, int> attackButton = { 1595, 845 };
@@ -197,7 +197,17 @@ string getText(Mat& pic)
 int getNumber(Mat& pic)
 {
 	ocr->setWhiteList(ocrNumbers);
-	return stoi(runOCR(pic));
+	string strNum = runOCR(pic);
+
+	//Remove any commas
+	int pos = strNum.find(',');
+	while (pos != string::npos)
+	{
+		strNum.erase(pos, 1);
+		pos = strNum.find(',');
+	}
+
+	return stoi(strNum);
 }
 
 pair<int, int> findIcon(Mat& tmp)
@@ -1049,6 +1059,8 @@ void karekSwampland()
 	Walk(LEFT, 1600);
 	Walk(UP, 100);
 	Walk(LEFT, 2000);
+	WalkUntilBattle();
+	Walk(LEFT, 3000);
 	leftClick(623, 448);
 	currentFishIconLoc = make_pair(623, 448);
 

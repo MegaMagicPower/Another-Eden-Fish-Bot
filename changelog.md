@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.2
+
+- Fixed calculation of fish points during bait purchase so it should now purchase FP baits in the correct quantity every time.
+- Fixed a rare occassion where the Karek Swamp macro would break due to entering a battle right before getting to the lake.
+
 ## 1.1
 
 - Fixed a case in Man-Eating Swamp where it would not re-enter the lake after a battle.
