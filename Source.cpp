@@ -535,7 +535,7 @@ string getStatus()
 }
 
 //Strategy is to quadrisect the lake and toss into each of the four sections and center
-void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000)
+void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000, int horrorThreshold = 7000)
 {
 	longSleepR(5000);
 	vector<pair<int, int>> baits = { {827, 274}, {882, 397}, {870, 514}, {851, 630}, {854, 750}, {884, 790} };
@@ -691,7 +691,7 @@ void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000)
 									Sleep(10);
 								}
 
-								if (lowestMSD > 7000) //If its not a monster, it must be a horror
+								if (lowestMSD > horrorThreshold) //If its not a monster, it must be a horror
 								{
 									cout << "Horror or Lake Lord detected";
 									exit(0);
@@ -1001,7 +1001,9 @@ void lakeTillian()
 	Walk(UP, 100);
 	Walk(RIGHT, 10000);
 	Walk(DOWN, 100);
-	Walk(LEFT, 10000);
+	Walk(LEFT, 5000);
+	fightUntilEnd();
+	Walk(LEFT, 5000);
 	leftClick(741, 449);
 	currentFishIconLoc = make_pair(741, 448);
 
@@ -1058,9 +1060,7 @@ void karekSwampland()
 	Walk(RIGHT, 5000);
 	Walk(LEFT, 1600);
 	Walk(UP, 100);
-	Walk(LEFT, 2000);
-	WalkUntilBattle();
-	Walk(LEFT, 3000);
+	Walk(LEFT, 5000);
 	leftClick(623, 448);
 	currentFishIconLoc = make_pair(623, 448);
 
@@ -1265,7 +1265,7 @@ void dimensionRift()
 	leftClick(408, 345);
 	currentFishIconLoc = make_pair(408, 345);
 
-	fish(dimensionRiftLocs);
+	fish(dimensionRiftLocs, 10000, 2500);
 	leftClick(leaveButton);
 
 	hasHorror = false;

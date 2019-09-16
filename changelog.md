@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3
+
+- Fixed Greater Whale horror detection.
+
 ## 1.2
 
 - Fixed calculation of fish points during bait purchase so it should now purchase FP baits in the correct quantity every time.
