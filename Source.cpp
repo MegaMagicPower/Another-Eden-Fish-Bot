@@ -841,7 +841,7 @@ void goToFishVendor()
 			}
 		}
 
-		baitList[i].first = held > 0 ? true : false;
+		baitList[i].first = held > 0;
 	}
 
 	leftClick(xButton);
