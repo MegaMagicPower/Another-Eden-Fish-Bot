@@ -61,6 +61,10 @@ vector<pair<int, int>> dimensionRiftLocs = { {887, 481}, {604, 470}, {1112, 471}
 vector<pair<int, int>> kiraBeachLocs = { {936, 533}, {697, 389}, {1180, 404}, {705, 686}, {1173, 687} };
 vector<pair<int, int>> rucyanaSandsLocs = { {862, 494}, {650, 398}, {1080, 403}, {632, 603}, {1103, 622} };
 vector<pair<int, int>> vasuLocs = { {879, 492}, {626, 395}, {1133, 399}, {612, 598}, {1166, 614} };
+vector<pair<int, int>> igomaLocs = { {880, 510}, {600, 420}, {1135, 425}, {630, 610}, {1120, 620} };
+vector<pair<int, int>> moonlightLocs = { {920, 435}, {635, 280}, {1215, 300}, {625, 580}, {1215, 575} };
+vector<pair<int, int>> ancientBattlefieldLocs = { {890, 475}, {645, 385}, {1115, 385}, {660, 570}, {1135, 575} };
+vector<pair<int, int>> zolPlainsLocs = { {850, 515}, {560, 410}, {1115, 400}, {545, 640}, {885, 675} };
 void(*fishIconClickFunction)() = NULL;
 
 vector<Mat>* currentMonsterVec = NULL;
@@ -386,7 +390,7 @@ void dragMap(Direction direction, int slideDistance)
 		drag(LEFT, slideDistance, 185, 600);
 		break;
 	case UP:
-		drag(UP, slideDistance, 850, 185);
+		drag(UP, slideDistance, 850, 350);
 		break;
 	case DOWN:
 		drag(DOWN, slideDistance, 850, 850);
@@ -730,7 +734,7 @@ void fish(vector<pair<int, int>>& sections, int msdThreshold = 10000, int horror
 
 }
 
-void goToSpacetimeRift()
+void goToSpacetimeRift(bool heal = true)
 {
 	leftClick(mapButton, 3500);
 	leftClick(endOfTimeLoc);
@@ -738,6 +742,16 @@ void goToSpacetimeRift()
 	leftClick(869, 482);
 	leftClick(yesButton);
 	longSleepR(loadTime);
+
+	if (heal)
+	{
+		leftClick(589, 78);
+		leftClick(589, 78);
+		leftClick(yesButton, 4000);
+		leftClick(yesButton);
+		leftClick(yesButton);
+		leftClick(yesButton);
+	}
 }
 
 void goToFishVendor()
@@ -758,7 +772,7 @@ void goToFishVendor()
 		return getNumber(partialPic);
 	};
 
-	goToSpacetimeRift();
+	goToSpacetimeRift(false);
 	leftClick(mapButton, 3500);
 	leftClick(antiquity);
 	leftClick(538, 310);
@@ -852,9 +866,7 @@ void goToBaruoki()
 	goToSpacetimeRift();
 	leftClick(mapButton, 3500);
 	leftClick(present);
-	dragMap(LEFT, 1700);
-	dragMap(UP, 600);
-	leftClick(576, 587);
+	leftClick(885, 490);
 	leftClick(yesButton);
 	longSleepR(loadTime);
 }
@@ -986,6 +998,27 @@ void elzionAirport()
 	currentMonsterVec = NULL;
 }
 
+void zolPlains()
+{
+	goToFishVendor();
+	goToSpacetimeRift();
+	leftClick(mapButton, 3500);
+	leftClick(antiquity);
+	leftClick(1110, 400);
+	leftClick(yesButton);
+	longSleepR(loadTime);
+
+	Walk(RIGHT, 350, true);
+	Walk(DOWN, 100);
+	Walk(RIGHT, 20000);
+
+	leftClick(935, 455);
+	currentFishIconLoc = make_pair(935, 455);
+
+	fish(zolPlainsLocs);
+	leftClick(leaveButton);
+}
+
 void lakeTillian()
 {
 	goToFishVendor();
@@ -1073,11 +1106,83 @@ void goToRinde()
 	goToSpacetimeRift();
 	leftClick(mapButton, 3500);
 	leftClick(present);
-	dragMap(LEFT, 1000);
-	dragMap(UP, 600);
-	leftClick(598, 303);
+	leftClick(1615, 215);
 	leftClick(yesButton);
 	longSleepR(loadTime);
+}
+
+void moonlightForest()
+{
+	goToFishVendor();
+	goToSpacetimeRift();
+	Walk(LEFT, 1950, true);
+	pair<int, int> pnt = findExclamationIcon();
+	leftClick(pnt.first, pnt.second, 2000, false);
+	leftClick(yesButton);
+	longSleepR(loadTime + 20000);
+	Walk(RIGHT, 5000);
+	Walk(DOWN, 100);
+	Walk(LEFT, 1000);
+
+	leftClick(435, 360);
+	currentFishIconLoc = make_pair(435, 360);
+
+	fish(moonlightLocs);
+	leftClick(leaveButton);
+}
+
+void ancientBattlefield()
+{
+	goToFishVendor();
+	goToSpacetimeRift();
+	leftClick(mapButton, 3500);
+	leftClick(present);
+	dragMap(RIGHT, 2000);
+	leftClick(600, 765);
+	leftClick(yesButton);
+	longSleepR(loadTime);
+
+	Walk(LEFT, 1750);
+	Walk(UP, 100);
+	Walk(RIGHT, 10000);
+
+	leftClick(1300, 455);
+	currentFishIconLoc = make_pair(1300, 455);
+
+	fish(ancientBattlefieldLocs);
+	leftClick(leaveButton);
+}
+
+void snakeNeckIgoma()
+{
+	goToFishVendor();
+	goToSpacetimeRift();
+	leftClick(mapButton, 3500);
+	leftClick(present);
+	dragMap(RIGHT, 2000);
+	dragMap(DOWN, 500);
+	leftClick(1380, 642);
+	leftClick(1220, 440);
+	leftClick(yesButton);
+	longSleepR(loadTime);
+
+	Walk(LEFT, 20000);
+	WalkUntilBattle();
+	Walk(LEFT, 5000);
+	Walk(RIGHT, 2900);
+	Walk(UP, 100, true);
+	Walk(LEFT, 6000);
+	Walk(RIGHT, 500, true);
+	Walk(DOWN, 100, true);
+	Walk(LEFT, 6000);
+	fightUntilEnd();
+	Walk(LEFT, 2000);
+
+	leftClick(685, 450);
+	currentFishIconLoc = make_pair(685, 450);
+
+	fish(igomaLocs);
+	leftClick(leaveButton);
 }
 
 void rinde()
@@ -1634,6 +1739,11 @@ void setup()
 			baitList[Premium_Crab_Cake].second = stoi(value);
 
 
+		else if (key.compare("Ancient Battlefield") == 0 && stoi(value) > 0)
+		{
+			fishingSpots.push_back(fishingSpot(&ancientBattlefield, stoi(value)));
+			parseBaitForArea(fishingSpots.back());
+		}
 		else if (key.compare("Baruoki") == 0 && stoi(value) > 0)
 		{
 			fishingSpots.push_back(fishingSpot(&baruoki, stoi(value)));
@@ -1724,6 +1834,11 @@ void setup()
 			fishingSpots.push_back(fishingSpot(&manEatingSwamp, stoi(value)));
 			parseBaitForArea(fishingSpots.back());
 		}
+		else if (key.compare("Moonlight Forest") == 0 && stoi(value) > 0)
+		{
+			fishingSpots.push_back(fishingSpot(&moonlightForest, stoi(value)));
+			parseBaitForArea(fishingSpots.back());
+		}
 		else if (key.compare("Naaru Uplands") == 0 && stoi(value) > 0)
 		{
 			fishingSpots.push_back(fishingSpot(&naaruUplands, stoi(value)));
@@ -1749,9 +1864,19 @@ void setup()
 			fishingSpots.push_back(fishingSpot(&serenaCoast, stoi(value)));
 			parseBaitForArea(fishingSpots.back());
 		}
+		else if (key.compare("Snake Neck Igoma") == 0 && stoi(value) > 0)
+		{
+			fishingSpots.push_back(fishingSpot(&snakeNeckIgoma, stoi(value)));
+			parseBaitForArea(fishingSpots.back());
+		}
 		else if (key.compare("Vasu Mountains") == 0 && stoi(value) > 0)
 		{
 			fishingSpots.push_back(fishingSpot(&vasuMountain, stoi(value)));
+			parseBaitForArea(fishingSpots.back());
+		}
+		else if (key.compare("Zol Plains") == 0 && stoi(value) > 0)
+		{
+			fishingSpots.push_back(fishingSpot(&zolPlains, stoi(value)));
 			parseBaitForArea(fishingSpots.back());
 		}
 		//else if (key.compare("Emulator") == 0)

@@ -17,7 +17,7 @@ As of right now, the only emulator supported is LD Player. I tried to get it to 
 
 You also must be able to run the game at full speed at all times (no potato PCs), as the bot is very heavily macro based. If you can't run the reroll macro, you most likely can't run this. The game must also be run with the English language setting.
 
-You must be finished with everything story wise in the game, or at least up to a certain point. While in the Dimension Rift, when opening the map screen and navigating to the Present, your map must start out centered on Snake Bone Island in the bottom right. If its not, you need to complete the new Ogre Wars story chapter. If you want to farm any of the Ocean Palace, you need to finish that so the guards move out of the way of the doors and the time rifts are open.
+You must be finished with everything story wise in the game, which is currently the entire Ogre Wars arc. If you want to farm any of the Ocean Palace, you need to finish that so the guards move out of the way of the doors and the time rifts are open.
 
 
 
@@ -42,7 +42,7 @@ You also cannot resize the window after starting the bot. There are certain calc
 
 
 ## What about random battles?
-All battles are done via just auto attacking, so put your best physical attackers in the group. The bot never attempts to heal, so technically you could die if you can't 1 turn everything, although it would probably take 12+ hours.
+All battles are done via just auto attacking, so put your best physical attackers in the group.
 
 
 

@@ -46,6 +46,23 @@ I've already entered in baits suggested by the Living Green fishing guide, so yo
 	0=Premium Crab Cake
 ~END
 
+0=Ancient Battlefield
+---
+	0=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	1=Foamy Worm
+	0=Bubbly Worm
+	1=Snitch Sardines
+	0=Blabber Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
 0=Baruoki
 ---
 	1=Fishing Dango
@@ -335,6 +352,23 @@ I've already entered in baits suggested by the Living Green fishing guide, so yo
 	0=Premium Crab Cake
 ~END
 
+0=Moonlight Forest
+---
+	1=Fishing Dango
+	1=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	0=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Blabber Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
 0=Naaru Uplands
 ---
 	1=Fishing Dango
@@ -420,6 +454,23 @@ I've already entered in baits suggested by the Living Green fishing guide, so yo
 	0=Premium Crab Cake
 ~END
 
+0=Snake Neck Igoma
+---
+	0=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	0=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Blabber Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
 0=Vasu Mountains
 ---
 	1=Fishing Dango
@@ -430,6 +481,23 @@ I've already entered in baits suggested by the Living Green fishing guide, so yo
 	1=Dressed Crab
 	0=Tear Crab
 	1=Foamy Worm
+	0=Bubbly Worm
+	0=Snitch Sardines
+	0=Blabber Sardines
+	0=Crab Cake
+	0=Premium Crab Cake
+~END
+
+0=Zol Plains
+---
+	0=Fishing Dango
+	0=Worm
+	0=Unexpected Worm
+	1=Shopaholic Clam
+	0=Spree Snail
+	1=Dressed Crab
+	0=Tear Crab
+	0=Foamy Worm
 	0=Bubbly Worm
 	0=Snitch Sardines
 	0=Blabber Sardines

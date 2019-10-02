@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.4
+
+- Added Moonlight Forest, Snake Neck Igoma, Ancient Battlefield, and Zol Plains fishing pools.
+- Updated Present time period to account for new starting map location after finishing the Ogre Wars arc.
+
 ## 1.3
 
 - Fixed Greater Whale horror detection.
