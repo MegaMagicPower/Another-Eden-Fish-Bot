@@ -1294,6 +1294,7 @@ void nilva()
 	leftClick(mapButton, 3500);
 	leftClick(futur);
 	leftClick(32, 413);
+	leftClick(1265, 355);
 	leftClick(yesButton);
 	longSleepR(loadTime);
 	Walk(RIGHT, 5000);

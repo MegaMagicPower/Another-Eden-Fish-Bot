@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.4.1
+
+- Fixed Nilva
+
 ## 1.4
 
 - Added Moonlight Forest, Snake Neck Igoma, Ancient Battlefield, and Zol Plains fishing pools.
