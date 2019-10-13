@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.4.2
+
+- Added jump rope minigame functionality
+
 ## 1.4.1
 
 - Fixed Nilva

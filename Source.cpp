@@ -17,6 +17,9 @@ using namespace cv;
 using namespace std;
 using namespace cv::text;
 
+enum botState { fishingState, baruokiJumpRope, ratleJumpRope };
+botState runState = fishingState;
+
 HWND window;
 
 int height, width;
@@ -1892,6 +1895,16 @@ void setup()
 		{
 			loadTime = stoi(value);
 		}
+		else if (key.compare("Baruoki Jump Rope") == 0)
+		{
+			if (stoi(value) == 1)
+				runState = baruokiJumpRope;
+		}
+		else if (key.compare("Ratle Jump Rope") == 0)
+		{
+			if (stoi(value) == 1)
+				runState = ratleJumpRope;
+		}
 	}
 
 	ocr = OCRTesseract::create(NULL, NULL, NULL, OEM_TESSERACT_ONLY, PSM_SINGLE_LINE);
@@ -2000,16 +2013,143 @@ void convertPic(string inName, string outName)
 	exit(0);
 }
 
+void jumpRopeRatle()
+{
+	Mat jmpRopePic1 = imread("jmpRopePic1.png", IMREAD_UNCHANGED);
+	Mat jmpRopePic2 = imread("jmpRopePic2.png", IMREAD_UNCHANGED);
+
+	if (heightPct != 1.0 || widthPct != 1.0)
+	{
+		resize(jmpRopePic1, jmpRopePic1, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(jmpRopePic2, jmpRopePic2, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+	}
+
+	Mat jmpRopePicCrop;
+	int MSD1;
+	int lowMSD = 99999999999;
+
+	bool check = false;
+
+	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+	sleepR(1);
+	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+
+	Sleep(1000);
+
+	int q = 0;
+	while (1)
+	{
+		Sleep(1);
+		bitBltWholeScreen();
+
+		if (check) {
+			copyPartialPic(jmpRopePicCrop, 21, 109, 710, 575);
+			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
+			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
+
+			if (MSD1 > 100)
+			{
+				check = false;
+
+				SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+				sleepR(1);
+				SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+				if (q++ == 10001)
+					break;
+			}
+		}
+		else
+		{
+			copyPartialPic(jmpRopePicCrop, 25, 79, 745, 305);
+			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
+			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
+
+			if (MSD1 > 100)
+			{
+				check = true;
+				Sleep(200);
+			}
+		}
+	}
+}
+
+void jumpRopeBaruoki()
+{
+	Mat jmpRopePic1 = imread("jmpRopePic3.png", IMREAD_UNCHANGED);
+	Mat jmpRopePic2 = imread("jmpRopePic4.png", IMREAD_UNCHANGED);
+
+	if (heightPct != 1.0 || widthPct != 1.0)
+	{
+		resize(jmpRopePic1, jmpRopePic1, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+		resize(jmpRopePic2, jmpRopePic2, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
+	}
+
+	Mat jmpRopePicCrop;
+	int MSD1;
+	int lowMSD = 99999999999;
+
+	bool check = true;
+
+	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+	sleepR(1);
+	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+
+	Sleep(1000);
+
+	int q = 0;
+	while (1)
+	{
+		Sleep(1);
+		bitBltWholeScreen();
+
+		if (check) {
+			copyPartialPic(jmpRopePicCrop, 12, 108, 761, 585);
+			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
+			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
+
+			if (MSD1 > 100)
+			{
+				check = false;
+
+				SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+				sleepR(1);
+				SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+				if (q++ == 10001)
+					break;
+			}
+		}
+		else
+		{
+			copyPartialPic(jmpRopePicCrop, 44, 20, 958, 324);
+			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
+			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
+
+			if (MSD1 > 100)
+			{
+				check = true;
+				Sleep(200);
+			}
+		}
+	}
+}
+
 int main()
 {
 	setup();
 
-	while (1)
+	if (runState == baruokiJumpRope)
+		jumpRopeBaruoki();
+	else if (runState == ratleJumpRope)
+		jumpRopeRatle();
+	else
 	{
-		for (int i = 0; i < fishingSpots.size(); ++i)
+		while (1)
 		{
-			currentBaitsToUse = &(fishingSpots[i].baitsToUse);
-			(*fishingSpots[i].fishFunction)();
+			for (int i = 0; i < fishingSpots.size(); ++i)
+			{
+				currentBaitsToUse = &(fishingSpots[i].baitsToUse);
+				(*fishingSpots[i].fishFunction)();
+			}
 		}
 	}
 }

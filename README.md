@@ -22,7 +22,7 @@ You must be finished with everything story wise in the game, which is currently 
 
 
 ## How do I run this?
-First, open up the config.txt file and read through it. The instructions should be pretty self explanatory; the value of a parameter is on the left, and the name of the parameter is on the right. The first setting may be confusing however, so I'll explain. The bot needs to be able to find the window the game is running in, which it does so with the window name. You can find this in the top left corner of the window (see screenshot where my window name is "Suz2"). By default this is "LDPlayer", but you may have renamed it. Put this in as your "Window Name" in the config file.
+First, open up the config.txt file and read through it. The instructions should be pretty self explanatory; the value of a parameter is on the left, and the name of the parameter is on the right. The first setting may be confusing however, so I'll explain. The bot needs to be able to find the window the game is running in, which it does so with the window name. You can find this in the top left corner of the window (see screenshot where my window name is "Suz2"). By default this is "LDPlayer", but you may have renamed it. Put this in as your "Window Name" in the config file. In the below example, my window name is "Suz2", so in the config file, it should say this: Suz2=Window Name
 
 ![Preview](https://i.imgur.com/INxSNRW.png)
 
@@ -63,6 +63,11 @@ Traveling to the pools is entirely macro based. If your computer or internet hav
 
 ## Can I run this over night without anything weird happening?
 You should be able to. If a macro breaks, it will finish it out and then enter an infinite loop (waiting to catch a fish) that it will never exit from. So at most you should only have random commands being entered for about 5 minutes max before this happens.
+
+
+
+## Bonus features
+I decided to include a couple of extra features that the bot can also do for you. Currently these are just the Baruoki/Ratle jump rope minigames. To activate these, go to the bottom of the config file and set the respective minigame from "0" to "1" and follow the instructions in the config file.
 
 
 
