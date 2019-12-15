@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.5
+- Updated for game version 2.0.200.
+- Fixed the jump rope minigame functionality. After trying it again myself from reports of people having issues, I now have the same problem as them when I wasn't before. Turns out the MSD threshold was way too low. I have no idea why now I'm suddenly getting a higher MSD than I was before, but it should hopefully now work for those it wasn't before, and likewise may break for those it was working for before. If it keeps giving people issues, I can add some debugging output and more variables to change so people can fix it themselves for their specific instance.
+
 ## 1.4.2
 
 - Added jump rope minigame functionality

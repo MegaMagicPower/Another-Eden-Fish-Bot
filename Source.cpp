@@ -869,7 +869,7 @@ void goToBaruoki()
 	goToSpacetimeRift();
 	leftClick(mapButton, 3500);
 	leftClick(present);
-	leftClick(885, 490);
+	leftClick(195, 504);
 	leftClick(yesButton);
 	longSleepR(loadTime);
 }
@@ -1109,7 +1109,7 @@ void goToRinde()
 	goToSpacetimeRift();
 	leftClick(mapButton, 3500);
 	leftClick(present);
-	leftClick(1615, 215);
+	leftClick(927, 224);
 	leftClick(yesButton);
 	longSleepR(loadTime);
 }
@@ -1296,7 +1296,7 @@ void nilva()
 	goToSpacetimeRift();
 	leftClick(mapButton, 3500);
 	leftClick(futur);
-	leftClick(32, 413);
+	leftClick(26, 495);
 	leftClick(1265, 355);
 	leftClick(yesButton);
 	longSleepR(loadTime);
@@ -2047,7 +2047,7 @@ void jumpRopeRatle()
 			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
 			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
 
-			if (MSD1 > 100)
+			if (MSD1 > 1000)
 			{
 				check = false;
 
@@ -2064,7 +2064,7 @@ void jumpRopeRatle()
 			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
 			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
 
-			if (MSD1 > 100)
+			if (MSD1 > 1000)
 			{
 				check = true;
 				Sleep(200);
@@ -2107,7 +2107,7 @@ void jumpRopeBaruoki()
 			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
 			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
 
-			if (MSD1 > 100)
+			if (MSD1 > 1000)
 			{
 				check = false;
 
@@ -2124,7 +2124,7 @@ void jumpRopeBaruoki()
 			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
 			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
 
-			if (MSD1 > 100)
+			if (MSD1 > 1000)
 			{
 				check = true;
 				Sleep(200);
