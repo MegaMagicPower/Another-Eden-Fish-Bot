@@ -507,7 +507,7 @@ I've already entered in baits suggested by the Living Green fishing guide, so yo
 
 Bonus Features - This is a section for small features that this bot can also perform for you. Set their value from 0 to 1 and the bot will do these instead of fishing
 ----------------
-For Baruoki jump rope, get to the section of text that says "Ready?", and then start the bot. Use characters with thin models; I recommend 4 of the generic 3 star robot characters.
+For Baruoki jump rope, get to the section of text that says "Ready!", and then start the bot. Use characters with thin models; I recommend 4 of the generic 3 star robot characters (Koot, Noome, Oor, etc).
 0=Baruoki Jump Rope
 
 For Ratle jump rope, get to the section of text that says "Are you ready? GO!" and then start the bot

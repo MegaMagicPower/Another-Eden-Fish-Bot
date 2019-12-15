@@ -17,7 +17,7 @@ As of right now, the only emulator supported is LD Player. I tried to get it to 
 
 You also must be able to run the game at full speed at all times (no potato PCs), as the bot is very heavily macro based. If you can't run the reroll macro, you most likely can't run this. The game must also be run with the English language setting.
 
-You must be finished with everything story wise in the game, which is currently the entire Ogre Wars arc. If you want to farm any of the Ocean Palace, you need to finish that so the guards move out of the way of the doors and the time rifts are open.
+You must be finished with everything story wise in the game, which is currently "2.0.200 Tales from the East. Return of the Goddess of Time. Volume 1". If you want to farm any of the Ocean Palace, you need to finish that so the guards move out of the way of the doors and the time rifts are open.
 
 
 
@@ -26,9 +26,11 @@ First, open up the config.txt file and read through it. The instructions should 
 
 ![Preview](https://i.imgur.com/INxSNRW.png)
 
-Once that's done, start your emulator. The emulator itself needs to be set to at least around 1280x720 resolution; this is because the bot is reading the screen, so if its hard to read for you, its hard to read for the bot as well. Feel free to experiment but if the bot starts to act odd, you've most likely chosen too low of a resolution. From here, you're free to resize the window, however the same as before applies; the smaller you make the window, the harder it will be for the bot to successfully read it.
+Once that's done, start your emulator. The emulator itself needs to be set to at least around 1280x720 resolution; this is because the bot is reading the screen, so if its hard to read for you, its hard to read for the bot as well. Feel free to experiment but if the bot starts to act odd, you've most likely chosen too low of a resolution. From here, you're free to resize the window, however the same as before applies; the smaller you make the window, the harder it will be for the bot to successfully read it. 1280x720 is what I recommend as that's the one I've tested everything on, although other resolutions may work.
 
-Now start your game and get to the normal state where you're free to run around. The menu should not be open. Make sure the emulator is not minimized. Now you're ready to run the bot, which you can do so via the command prompt or simply double clicking the exe file. If everything worked correctly, you should see the map screen being opened as it travels to the fish vendor. The bot always visits the fish vendor to turn in fish and buy bait for traveling to each pool. If you haven't changed the config file, you'll be buying 20 Fishing Dango's and then traveling to Kira Beach to fish. Once you are satisfied that it's working correctly, feel free to setup the config file how you want to travel to other locations.
+Now start your game and get to the normal state where you're free to run around. The menu should not be open. Make sure the emulator is not minimized. As of the 2.0.200 update, you also need to make sure that when you open the map screen, all time periods are selectable and none are greyed out. To clarify, when you are at a location on the eastern continent, or you have traveled to the spacetime rift from a location on the eastern continent, you will notice that when you open the map screen, the past and future time periods are not selectable. To fix this, travel to any location outside of the eastern continent and then open your map screen; all time periods should now be selectable.
+
+Now you're ready to run the bot, which you can do so via the command prompt or simply double clicking the exe file. If everything worked correctly, you should see the map screen being opened as it travels to the fish vendor. The bot always visits the fish vendor to turn in fish and buy bait for traveling to each pool. If you haven't changed the config file, you'll be buying 20 Fishing Dango's and then traveling to Kira Beach to fish. Once you are satisfied that it's working correctly, feel free to setup the config file how you want to travel to other locations.
 
 If you find your emulator is running too slowly (ie bot not working correctly), try setting at least 2 cores/1048 RAM in the settings. Also make sure you have virtualization support turned on your BIOS as shown in this link: [https://www.ldplayer.net/blog/how-to-enable-vt.html](https://www.ldplayer.net/blog/how-to-enable-vt.html)
 
