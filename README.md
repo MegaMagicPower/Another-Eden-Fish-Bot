@@ -13,7 +13,11 @@ I can't guarantee anything, but I have taken as many precautions as possible. Th
 
 
 ## What do I need to run this?
-As of right now, the only emulator supported is LD Player. I tried to get it to work on Nox, but it doesn't respond to mouse messages correctly. Its possible that other emulators may work, I just haven't tried them. If there's enough interest in them I may try. As of right now, simply download LD Player, transfer your account, finish all your fishing, and then transfer back to your emulator/device of choice.
+As of right now, the only emulator supported is LD Player. I tried to get it to work on Nox, but it doesn't respond to mouse messages correctly. Its possible that other emulators may work, I just haven't tried them. If there's enough interest in them I may try. As of right now, simply download LD Player (see below), transfer your account, finish all your fishing, and then transfer back to your emulator/device of choice.
+
+As to what version of LDPlayer to get, on their main site they offer either version 3 or version 4. I recently tried 4 and it hangs frequently with "waiting for this app to respond" when the bot is running, so its not going to work for this. I have not tried their latest version of 3, so its possible that it might work better. If you want to be sure though, I developed and tested this for 100+ hours on version 3.49, which you can get at the link below:
+
+[https://encdn.ldmnq.com/download/en/LDPlayer_3.49.exe](https://encdn.ldmnq.com/download/en/LDPlayer_3.49.exe)
 
 You also must be able to run the game at full speed at all times (no potato PCs), as the bot is very heavily macro based. If you can't run the reroll macro, you most likely can't run this. The game must also be run with the English language setting.
 
@@ -60,8 +64,13 @@ More than likely you either entered the wrong window name, or you started the bo
 
 
 
+## The bot appears to work, but when it gets to the fish vendor, it does not enter the vendor and instead starts clicking on the minimap
+Entering the fish vendor relies on image recognition, and you have some problem that is preventing the bot from seeing your screen. Everytime someone has reported this to me, it turns out that they have 2 GPUs on their computer (normally a laptop) and Windows is using one while LDPlayer is using the other, and the fix was just to disable one of them. To diagnose whether this is a problem for you, download OBS (Open Broadcaster Software, google it) and once its open, click the "+" symbol underneath "Sources" at the bottom, select "Window Capture", and then for your window, select "[dnplayer.exe]". You should see the same output here as what's currently on your LDPlayer. If you don't, then you have the above problem and need to figure out why that is. It could be the 2 GPU problem or something else. If you can get the window capture in OBS to work, then the bot should also work.
+
+
+
 ## The bot got stuck. Wtf?
-Traveling to the pools is entirely macro based. If your computer or internet have a lag spike, the macro will break. Fix the config file to start where you need to and restart the bot to continue. The macro itself may just break randomly sometimes too, but hopefully its an acceptable amount; if you find any spot that breaks a lot, let me know and I'll try to fix it.
+Traveling to the pools is entirely macro based. If your computer or internet have a lag spike, the macro will break. Fix the config file to start where you need to and restart the bot to continue. The macro itself may just break randomly sometimes too (most often in Dragon Palace as that has the longest routes), but hopefully its an acceptable amount. If I could go back in time, I wouldn't have put random timings on the walking, as I think that's what causes it to happen the most. To retime everything would take a few hours though, and for me it doesn't really happen frequently enough to warrant taking the time to do so. If there's ever a huge expansion to fishing though, I'll go back and fix this.
 
 
 
