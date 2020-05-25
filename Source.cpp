@@ -2015,121 +2015,139 @@ void convertPic(string inName, string outName)
 
 void jumpRopeRatle()
 {
-	Mat jmpRopePic1 = imread("jmpRopePic1.png", IMREAD_UNCHANGED);
-	Mat jmpRopePic2 = imread("jmpRopePic2.png", IMREAD_UNCHANGED);
-
-	if (heightPct != 1.0 || widthPct != 1.0)
-	{
-		resize(jmpRopePic1, jmpRopePic1, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
-		resize(jmpRopePic2, jmpRopePic2, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
-	}
-
-	Mat jmpRopePicCrop;
 	int MSD1;
-	int lowMSD = 99999999999;
+	Mat checkArea, currPic;
 
-	bool check = false;
+	//Neutral top rope
+	bitBltWholeScreen();
+	copyPartialPic(checkArea, 25, 79, 745, 305);
 
 	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
 	sleepR(1);
 	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
 
-	Sleep(1000);
-
-	int q = 0;
-	while (1)
+	//Wait for rope to get to top
+	do
 	{
-		Sleep(1);
+		Sleep(12);
 		bitBltWholeScreen();
+		copyPartialPic(currPic, 25, 79, 745, 305);
+		MSD1 = cv::norm(checkArea, currPic);
+		MSD1 = MSD1 * MSD1 / checkArea.total();
+	} while (MSD1 < 1000);
 
-		if (check) {
-			copyPartialPic(jmpRopePicCrop, 21, 109, 710, 575);
-			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
-			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
+	//Now that rope is at top, check section is clear. Take neutral pic
+	copyPartialPic(checkArea, 3, 3, 522, 663);
 
-			if (MSD1 > 1000)
-			{
-				check = false;
-
-				SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
-				sleepR(1);
-				SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
-				if (q++ == 10001)
-					break;
-			}
-		}
-		else
+	for (int i = 0; i < 10000; ++i)
+	{
+		//Wait for skirt to fall
+		do
 		{
-			copyPartialPic(jmpRopePicCrop, 25, 79, 745, 305);
-			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
-			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
+			Sleep(12);
+			bitBltWholeScreen();
+			copyPartialPic(currPic, 3, 3, 522, 663);
+			MSD1 = cv::norm(checkArea, currPic);
+			MSD1 = MSD1 * MSD1 / checkArea.total();
+		} while (MSD1 < 1000);
 
-			if (MSD1 > 1000)
-			{
-				check = true;
-				Sleep(200);
-			}
-		}
+		//Jump
+		SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+		sleepR(1);
+		SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+
+		//Wait for skirt to rise back to top
+		do
+		{
+			Sleep(12);
+			bitBltWholeScreen();
+			copyPartialPic(currPic, 3, 3, 522, 663);
+			MSD1 = cv::norm(checkArea, currPic);
+			MSD1 = MSD1 * MSD1 / checkArea.total();
+		} while (MSD1 > 100);
+		Sleep(100);
 	}
 }
 
 void jumpRopeBaruoki()
 {
-	Mat jmpRopePic1 = imread("jmpRopePic3.png", IMREAD_UNCHANGED);
-	Mat jmpRopePic2 = imread("jmpRopePic4.png", IMREAD_UNCHANGED);
+	int MSD1 = 0;
+	bool left = true;
+	Mat skirtLeft, skirtRight, currPic;
 
-	if (heightPct != 1.0 || widthPct != 1.0)
-	{
-		resize(jmpRopePic1, jmpRopePic1, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
-		resize(jmpRopePic2, jmpRopePic2, Size(), widthPct, heightPct, heightPct >= 1.0 ? INTER_CUBIC : INTER_AREA);
-	}
-
-	Mat jmpRopePicCrop;
-	int MSD1;
-	int lowMSD = 99999999999;
-
-	bool check = true;
-
+	//Jump rope top
+	bitBltWholeScreen();
+	copyPartialPic(skirtLeft, 33, 8, 857, 304);
+	
 	SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
 	sleepR(1);
 	SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
 
-	Sleep(1000);
-
-	int q = 0;
-	while (1)
+	//Wait until they get the rope to the top the first time
+	do
 	{
-		Sleep(1);
+		Sleep(12);
 		bitBltWholeScreen();
+		copyPartialPic(currPic, 33, 8, 857, 304);
+		MSD1 = cv::norm(skirtLeft, currPic);
+		MSD1 = MSD1 * MSD1 / skirtLeft.total();
+	} while (MSD1 < 1000);
 
-		if (check) {
-			copyPartialPic(jmpRopePicCrop, 12, 108, 761, 585);
-			MSD1 = cv::norm(jmpRopePic2, jmpRopePicCrop);
-			MSD1 = MSD1 * MSD1 / jmpRopePic2.total();
+	//Now that their hands are at the top, take neutral skirt pics
+	copyPartialPic(skirtLeft, 3, 3, 528, 675);
+	copyPartialPic(skirtRight, 3, 3, 1213, 668);
 
-			if (MSD1 > 1000)
-			{
-				check = false;
+	for (int i = 0; i < 10000; ++i)
+	{
+		//Every 5 jumps, switch sides
+		if (i % 4 == 1)
+			left = !left;
 
-				SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
-				sleepR(1);
-				SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
-				if (q++ == 10001)
-					break;
-			}
-		}
-		else
+		//Keep looping until skirt drops into area
+		do
 		{
-			copyPartialPic(jmpRopePicCrop, 44, 20, 958, 324);
-			MSD1 = cv::norm(jmpRopePic1, jmpRopePicCrop);
-			MSD1 = MSD1 * MSD1 / jmpRopePic1.total();
+			Sleep(12);
+			bitBltWholeScreen();
 
-			if (MSD1 > 1000)
+			if (left)
 			{
-				check = true;
-				Sleep(200);
+				copyPartialPic(currPic, 3, 3, 528, 675);
+				MSD1 = cv::norm(skirtLeft, currPic);
+				MSD1 = MSD1 * MSD1 / skirtLeft.total();
 			}
-		}
+			else
+			{
+				copyPartialPic(currPic, 3, 3, 1213, 668);
+				MSD1 = cv::norm(skirtRight, currPic);
+				MSD1 = MSD1 * MSD1 / skirtRight.total();
+			}
+		} while (MSD1 < 1000);
+		
+		//Jump
+		SendMessage(window, WM_LBUTTONDOWN, 0, MAKELPARAM(xCenter, yCenter));
+		sleepR(1);
+		SendMessage(window, WM_LBUTTONUP, 0, MAKELPARAM(xCenter, yCenter));
+
+		//Wait until skirt leaves area
+		do
+		{
+			Sleep(12);
+			bitBltWholeScreen();
+
+			if (left)
+			{
+				copyPartialPic(currPic, 3, 3, 528, 675);
+				MSD1 = cv::norm(skirtLeft, currPic);
+				MSD1 = MSD1 * MSD1 / skirtLeft.total();
+			}
+			else
+			{
+				copyPartialPic(currPic, 3, 3, 1213, 668);
+				MSD1 = cv::norm(skirtRight, currPic);
+				MSD1 = MSD1 * MSD1 / skirtRight.total();
+			}
+		} while (MSD1 > 100);
+		Sleep(100);
 	}
 }
 
