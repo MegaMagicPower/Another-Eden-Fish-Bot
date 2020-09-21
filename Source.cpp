@@ -975,6 +975,7 @@ void elzionAirport()
 	leftClick(mapButton, 3500);
 	leftClick(futur);
 	leftClick(751, 637);
+	leftClick(1265, 355);
 	leftClick(yesButton);
 	longSleepR(loadTime);
 	Walk(RIGHT, 250);
